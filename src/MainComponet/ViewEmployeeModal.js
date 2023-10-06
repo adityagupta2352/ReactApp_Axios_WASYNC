@@ -8,7 +8,7 @@ const ViewEmployeeModal = ({ show, handleClose, employees, companyName }) => {
         <Modal.Title>Employees of {companyName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <table className="table table-striped">
+        <table className="table table-striped" style={{ border: "1px solid #000", borderCollapse: "collapse" }}>
           <thead>
             <tr>
               <th>ID</th>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNewEmployee } from "../Slices/mainSlice";
+import EmployeeComponent from "../MainComponet/EmployeeComponent";
 
 const AddEmp = () => {
   const inputStyle = {
@@ -57,6 +58,10 @@ const AddEmp = () => {
   };
 
   return (
+    <>
+    <div>
+       <EmployeeComponent></EmployeeComponent>
+    </div>
     <div className="App-header1">
       <h2>Add Employee</h2>
       <div>
@@ -107,6 +112,7 @@ const AddEmp = () => {
         Save
       </button>
     </div>
+    </>
   );
 };
 

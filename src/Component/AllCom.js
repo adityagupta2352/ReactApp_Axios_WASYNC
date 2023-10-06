@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCompany } from "../Slices/comSlice";
-import "./App1.css";
+import { companyUpdation, deleteCom, getCompany } from "../Slices/comSlice";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import ViewEmployeeModal from "../MainComponet/ViewEmployeeModal";
+import "./App1.css";
+import CompanyComponent from "../MainComponet/CompanyComponent";
 
 export const AllCom = () => {
-  const { company } = useSelector((state) => state.com);
   const dispatch = useDispatch();
+  const { company } = useSelector((state) => state.com);
+
+  const [show, setShow] = useState(false);
+  const [updateCompany, setUpdateCompany] = useState({});
+
+  const handleClose = () => {
+    setShow(false);
+    setUpdateCompany({});
+  };
+
+  const handleShow = () => {
+    setShow(true);
+  };
 
   useEffect(() => {
     dispatch(getCompany());
@@ -14,6 +29,16 @@ export const AllCom = () => {
 
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleUpdate = (company) => {
+    setUpdateCompany(company);
+    handleShow();
+  }
+
+  const handleUpdateSave = () => {
+    dispatch(companyUpdation(updateCompany));
+    handleClose();
+  }
 
   const openModal = (company) => {
     setSelectedCompany(company);
@@ -26,9 +51,13 @@ export const AllCom = () => {
   };
 
   return (
+    <>
+    <div>
+       <CompanyComponent></CompanyComponent>
+    </div>
     <div className="App-header1">
-      <h2>Company Data</h2>
-      <table className="table table-striped">
+      <h2>Company Details</h2>
+      <table className="table table-striped" style={{ border: "1px solid #000", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th scope="col">Id</th>
@@ -55,13 +84,13 @@ export const AllCom = () => {
               <td>
                 <button
                   className="delete-button"
-                  // onClick={() => handleDelete(employee.empId)}
+                  onClick={() => dispatch(deleteCom(company.comId))}
                 >
                   Delete
                 </button>
                 <button
                   className="delete-button"
-                  // onClick={() => handleUpdate(employee)}
+                  onClick={() => handleUpdate(company)}
                 >
                   Update
                 </button>
@@ -71,6 +100,38 @@ export const AllCom = () => {
         </tbody>
       </table>
 
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Company</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <div className="form-group" >
+              <label>Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={updateCompany ? updateCompany.comName : ""}
+                onChange={(e) =>
+                  setUpdateCompany({
+                    ...updateCompany,
+                    comName: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleUpdateSave}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <ViewEmployeeModal
         show={isModalOpen}
         handleClose={closeModal}
@@ -78,5 +139,6 @@ export const AllCom = () => {
         companyName={selectedCompany ? selectedCompany.comName : ""}
       />
     </div>
+    </>
   );
 };

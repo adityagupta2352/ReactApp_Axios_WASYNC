@@ -5,12 +5,10 @@ export const getEmp = () => {
   return async (dispatch) => {
     try {
       dispatch(employeeLoading());
-      const response = await axios.get(
-        "http://localhost:8080/company/employees"
-      );
-      dispatch(fetchEmployeesFulfiled(response.data));
+      const response = await axios.get("http://localhost:8080/company/employees");
+      dispatch(fetchEmployeesFulfilled(response.data));
     } catch (error) {
-      dispatch(employeeRejected);
+      dispatch(employeeRejected());
     }
   };
 };
@@ -18,13 +16,10 @@ export const getEmp = () => {
 export const addNewEmployee = (employeeData) => {
   return async (dispatch) => {
     try {
-      
+      const companyId = employeeData.comId;
       const empName = employeeData.empName;
       const salary = employeeData.salary;
       const empDateofJoin = employeeData.empDateofJoin;
-      const companyId = employeeData.comId;
-
-      console.log(companyId);
 
       const response = await axios.post(
         `http://localhost:8080/company/${companyId}/employees`,
@@ -54,25 +49,26 @@ export const deleteEmp = (empId) => {
   };
 };
 
- export const employeeUpdation = (updateEmployee) => {
-   return async (dispatch) => {
-     try {
-       console.log(updateEmployee);
-       dispatch(employeeLoading());
-       const response = await axios.put(`http://localhost:8080/company/employees/${updateEmployee.empId}`, updateEmployee);
-       dispatch(updateEmployeeFulfiled(updateEmployee));
-       dispatch(getEmp());
-     } catch (error) {
-       dispatch(employeeRejected());
-     }
-   };
- };
+export const employeeUpdation = (updateEmployee) => {
+  return async (dispatch) => {
+    try {
+      dispatch(employeeLoading());
+      const response = await axios.put(
+        `http://localhost:8080/company/employees/${updateEmployee.empId}`,
+        updateEmployee
+      );
+      dispatch(updateEmployeeFulfilled(updateEmployee));
+    } catch (error) {
+      dispatch(employeeRejected());
+    }
+  };
+};
 
 export const mainSlice = createSlice({
   name: "main",
   initialState: { employee: [], loading: false, error: null },
   reducers: {
-    fetchEmployeesFulfiled: (state, action) => {
+    fetchEmployeesFulfilled: (state, action) => {
       state.loading = false;
       state.employee = action.payload;
     },
@@ -95,22 +91,22 @@ export const mainSlice = createSlice({
         (employee) => employee.empId !== action.payload
       );
     },
-   updateEmployeeFulfiled: (state, action) => {
-     state.loading = false;
-     let tempEmp = [...state.employee];
-     let remove = tempEmp.filter((e) => e.empId != action.payload.empId);
-     remove.push(action.payload);
-     state.employee = remove;
-   },
+    updateEmployeeFulfilled: (state, action) => {
+      state.loading = false;
+      state.employee = state.employee.map((e) =>
+        e.empId === action.payload.empId ? action.payload : e
+      );
+    },
   },
 });
+
 export const {
-  fetchEmployeesFulfiled,
+  fetchEmployeesFulfilled,
   employeeLoading,
   employeeRejected,
   addEmployee,
   deleteEmployee,
-  updateEmployeeFulfiled,
+  updateEmployeeFulfilled,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

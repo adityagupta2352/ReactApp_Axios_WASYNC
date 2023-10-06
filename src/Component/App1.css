@@ -5,12 +5,12 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #b9c2c9;
+    background-color: #333;
   }
   
   /* Header styles */
   .App-header1 {
-    background-color: #b9c2c9;
+    background-color: #333;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -29,7 +29,7 @@ body {
     padding: 10px 20px;
     background-color: #ff4747;
     color: #ffffff;
-    border: none;
+    border-radius: 15px;
     cursor: pointer;
   }
   

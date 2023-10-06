@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addNewCompany } from "../Slices/comSlice";
+import CompanyComponent from "../MainComponet/CompanyComponent";
 
 const AddCom = () => {
 
@@ -52,6 +53,10 @@ const AddCom = () => {
     };
     
   return (
+    <>
+    <div>
+       <CompanyComponent></CompanyComponent>
+    </div>
     <div className="App-header1">
       <h2>Add Company</h2>
       <div>
@@ -69,6 +74,7 @@ const AddCom = () => {
         Save
       </button>
     </div>
+    </>
   );
 };
 

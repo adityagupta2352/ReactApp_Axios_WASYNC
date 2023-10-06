@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Display } from "./Display";
+import { Link } from "react-router-dom";
+import CompanyComponent from "./CompanyComponent";
 
 const buttonStyles = {
-  margin: "10px",
-  backgroundColor: "#007bff",
+  margin: "5px",
+  fontSize:"12px",
+  backgroundColor: "#333",
   color: "white",
   padding: "10px 20px",
   border: "none",
@@ -20,13 +23,12 @@ export const RootComponent = () => {
 
   return (
     <div className="App-header1">
-      <button style={buttonStyles} onClick={() => handle("CompanyComponent")}>
+      <Link to="/CompanyComponent" className="btn btn-danger">
         Company
-      </button>
-      <button style={buttonStyles} onClick={() => handle("EmployeeComponent")}>
+      </Link>
+      <Link to="/EmployeeComponent" className="btn btn-danger">
         Employee
-      </button>
-
+      </Link>
       <Display page={currentPage} />
     </div>
   );

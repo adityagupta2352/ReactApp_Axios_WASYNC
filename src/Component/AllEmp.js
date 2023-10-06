@@ -4,6 +4,7 @@ import { getEmp, deleteEmp, employeeUpdation } from "../Slices/mainSlice";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./App1.css";
+import EmployeeComponent from "../MainComponet/EmployeeComponent";
 
 const AllEmp = () => {
   const dispatch = useDispatch();
@@ -38,9 +39,13 @@ const AllEmp = () => {
   };
 
   return (
+    <>
+    <div>
+       <EmployeeComponent></EmployeeComponent>
+    </div>
     <div className="App-header1">
-      <h2>Employee Data</h2>
-      <table className="table table-striped">
+      <h2>Employee Details</h2>
+      <table className="table table-striped" style={{ border: "1px solid #000", borderCollapse: "collapse" }}>
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -135,6 +140,7 @@ const AllEmp = () => {
         </Modal.Footer>
       </Modal>
     </div>
+    </>
   );
 };
 
